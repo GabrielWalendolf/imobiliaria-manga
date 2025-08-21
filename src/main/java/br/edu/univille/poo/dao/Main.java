@@ -252,16 +252,160 @@ public class Main {
     }
 
     private static void atualizarImovel(Scanner scanner) {
-        Main.scanner = scanner;
-        System.out.println("\n--- Atualizar Imóvel por ID ---");
-        // Lógica similar a atualizarCliente, buscando o imóvel e pedindo os novos dados.
-        System.out.println("Funcionalidade de ATUALIZAR IMÓVEL ainda não implementada.");
+        System.out.println("\n--- Atualizar Dados de Imóvel por ID ---");
+        try {
+            System.out.print("Digite o ID do IMÓVEL a ser atualizado: ");
+            long id = Long.parseLong(scanner.nextLine());
+
+            // 1. Busca o imóvel no banco de dados
+            var imovelOpt = imovelDAO.obterPorId(id);
+
+            // 2. Verifica se o imóvel foi encontrado
+            if (imovelOpt.isEmpty()) {
+                System.out.println("Imóvel com ID " + id + " não encontrado.");
+                return;
+            }
+
+            Imovel imovel = imovelOpt.get();
+            System.out.println("\nEditando imóvel localizado em: " + imovel.getEndereco());
+            System.out.println("(Deixe o campo em branco e pressione Enter para não alterar o valor atual)");
+
+            // 3. Pede os novos dados ao usuário, um por um
+            System.out.print("Novo Endereço (atual: " + imovel.getEndereco() + "): ");
+            String endereco = scanner.nextLine();
+            if (!endereco.isBlank()) imovel.setEndereco(endereco);
+
+            System.out.print("Novo Bairro (atual: " + imovel.getBairro() + "): ");
+            String bairro = scanner.nextLine();
+            if (!bairro.isBlank()) imovel.setBairro(bairro);
+
+            System.out.print("Nova Cidade (atual: " + imovel.getCidade() + "): ");
+            String cidade = scanner.nextLine();
+            if (!cidade.isBlank()) imovel.setCidade(cidade);
+
+            System.out.print("Novo CEP (atual: " + imovel.getCep() + "): ");
+            String cep = scanner.nextLine();
+            if (!cep.isBlank()) imovel.setCep(cep);
+
+            System.out.print("Novo Tipo (atual: " + imovel.getTipoImovel() + "): ");
+            String tipo = scanner.nextLine();
+            if (!tipo.isBlank()) imovel.setTipoImovel(tipo);
+
+            System.out.print("Nova Área em m² (atual: " + imovel.getAreaM2() + "): ");
+            String area = scanner.nextLine();
+            if (!area.isBlank()) imovel.setAreaM2(new BigDecimal(area));
+
+            System.out.print("Novo nº de Quartos (atual: " + imovel.getQuartos() + "): ");
+            String quartos = scanner.nextLine();
+            if (!quartos.isBlank()) imovel.setQuartos(Integer.parseInt(quartos));
+
+            System.out.print("Novo nº de Banheiros (atual: " + imovel.getBanheiros() + "): ");
+            String banheiros = scanner.nextLine();
+            if (!banheiros.isBlank()) imovel.setBanheiros(Integer.parseInt(banheiros));
+
+            System.out.print("Novas Vagas de Garagem (atual: " + imovel.getVagasGaragem() + "): ");
+            String vagas = scanner.nextLine();
+            if (!vagas.isBlank()) imovel.setVagasGaragem(Integer.parseInt(vagas));
+
+            System.out.print("Novo Status (Disponível/Alugado) (atual: " + imovel.getStatus() + "): ");
+            String status = scanner.nextLine();
+            if (!status.isBlank()) imovel.setStatus(status);
+
+            // 4. Chama o DAO para salvar as alterações no banco
+            if (imovelDAO.atualizar(imovel)) {
+                System.out.println("\nImóvel atualizado com sucesso!");
+            } else {
+                System.out.println("\nFalha ao atualizar o imóvel.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("\nErro: ID, número de quartos/banheiros/vagas ou área inválidos. Por favor, digite um número válido.");
+        } catch (Exception e) {
+            System.out.println("\nOcorreu um erro inesperado: " + e.getMessage());
+        }
     }
 
     private static void atualizarContrato(Scanner scanner) {
-        System.out.println("\n--- Atualizar Contrato por ID ---");
-        // Lógica similar, mas mais complexa por envolver datas e IDs de cliente/imóvel.
-        System.out.println("Funcionalidade de ATUALIZAR CONTRATO ainda não implementada.");
+        System.out.println("\n--- Atualizar Dados de Contrato por ID ---");
+        try {
+            System.out.print("Digite o ID do CONTRATO a ser atualizado: ");
+            long id = Long.parseLong(scanner.nextLine());
+
+            // 1. Busca o contrato no banco de dados
+            var contratoOpt = contratoDAO.obterPorId(id);
+
+            // 2. Verifica se o contrato foi encontrado
+            if (contratoOpt.isEmpty()) {
+                System.out.println("Contrato com ID " + id + " não encontrado.");
+                return;
+            }
+
+            Contratos contrato = contratoOpt.get();
+            System.out.println("\nEditando contrato do cliente ID " + contrato.getCliente().getId() +
+                    " para o imóvel ID " + contrato.getImovel().getId());
+            System.out.println("(Deixe o campo em branco e pressione Enter para não alterar o valor atual)");
+
+            // 3. Pede os novos dados ao usuário, um por um
+            // Lidar com chaves estrangeiras (Cliente e Imóvel)
+            System.out.print("Novo ID do Cliente (atual: " + contrato.getCliente().getId() + "): ");
+            String idClienteStr = scanner.nextLine();
+            if (!idClienteStr.isBlank()) {
+                Cliente novoCliente = new Cliente();
+                novoCliente.setId(Long.parseLong(idClienteStr));
+                contrato.setCliente(novoCliente);
+            }
+
+            System.out.print("Novo ID do Imóvel (atual: " + contrato.getImovel().getId() + "): ");
+            String idImovelStr = scanner.nextLine();
+            if (!idImovelStr.isBlank()) {
+                Imovel novoImovel = new Imovel();
+                novoImovel.setId(Long.parseLong(idImovelStr));
+                contrato.setImovel(novoImovel);
+            }
+
+            // Lidar com valor monetário (BigDecimal)
+            System.out.print("Novo Valor do Aluguel Mensal (atual: " + contrato.getValorAluguelMensal() + "): ");
+            String valorStr = scanner.nextLine();
+            if (!valorStr.isBlank()) {
+                contrato.setValorAluguelMensal(new BigDecimal(valorStr));
+            }
+
+            // Lidar com datas (Date)
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            System.out.print("Nova Data de Início (dd/mm/aaaa) (atual: " + sdf.format(contrato.getDataInicio()) + "): ");
+            String dataInicioStr = scanner.nextLine();
+            if (!dataInicioStr.isBlank()) {
+                contrato.setDataInicio(sdf.parse(dataInicioStr));
+            }
+
+            System.out.print("Nova Data de Fim (dd/mm/aaaa) (atual: " + sdf.format(contrato.getDataFim()) + "): ");
+            String dataFimStr = scanner.nextLine();
+            if (!dataFimStr.isBlank()) {
+                contrato.setDataFim(sdf.parse(dataFimStr));
+            }
+
+            // Lidar com status (String)
+            System.out.print("Novo Status do Contrato (Ativo/Inativo/Expirado) (atual: " + contrato.getStatusContrato() + "): ");
+            String status = scanner.nextLine();
+            if (!status.isBlank()) {
+                contrato.setStatusContrato(status);
+            }
+
+            // 4. Chama o DAO para salvar as alterações no banco
+            if (contratoDAO.atualizar(contrato)) {
+                System.out.println("\nContrato atualizado com sucesso!");
+            } else {
+                System.out.println("\nFalha ao atualizar o contrato. Verifique se os IDs de cliente e imóvel são válidos.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("\nErro: ID ou valor inválido. Por favor, digite um número válido.");
+        } catch (ParseException e) {
+            System.out.println("\nErro: Formato de data inválido. Use o formato dd/mm/aaaa.");
+        } catch (Exception e) {
+            System.out.println("\nOcorreu um erro inesperado: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // ==================================================================
