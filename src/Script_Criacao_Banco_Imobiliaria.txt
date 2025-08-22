@@ -1,0 +1,145 @@
+-- =============================================================================
+-- SCRIPT DE CRIAÇÃO DO BANCO DE DADOS PARA O SISTEMA DE GESTÃO IMOBILIÁRIA
+-- SGBD: PostgreSQL
+-- =============================================================================
+
+-- Habilitar a extensão pgcrypto se for usar funções de hash mais avançadas no futuro (ex: bcrypt)
+-- CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- =============================================================================
+-- TABELA: clientes
+-- Armazena os dados dos clientes da imobiliária.
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS clientes (
+    id_cliente SERIAL PRIMARY KEY,
+    nome_completo VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL UNIQUE, -- Formato XXX.XXX.XXX-XX
+    telefone VARCHAR(20),
+    email VARCHAR(255) UNIQUE,
+    data_cadastro TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE clientes IS 'Armazena os dados cadastrais dos clientes da imobiliária.';
+COMMENT ON COLUMN clientes.id_cliente IS 'Identificador único para cada cliente (auto-incrementado).';
+COMMENT ON COLUMN clientes.cpf IS 'CPF do cliente, deve ser único.';
+
+
+-- =============================================================================
+-- TABELA: imoveis
+-- Armazena os dados dos imóveis gerenciados pela imobiliária.
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS imoveis (
+    id_imovel SERIAL PRIMARY KEY,
+    endereco VARCHAR(255) NOT NULL,
+    bairro VARCHAR(100),
+    cidade VARCHAR(100) NOT NULL,
+    cep VARCHAR(9), -- Formato XXXXX-XXX
+    tipo_imovel VARCHAR(50) NOT NULL, -- Ex: Casa, Apartamento, Terreno
+    area_m2 NUMERIC(10, 2) NOT NULL,
+    quartos INT DEFAULT 0,
+    banheiros INT DEFAULT 0,
+    vagas_garagem INT DEFAULT 0,
+    status VARCHAR(20) NOT NULL DEFAULT 'Disponível', -- Ex: Disponível, Alugado, Em Manutenção
+    data_cadastro TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE imoveis IS 'Catálogo de todos os imóveis gerenciados pela imobiliária.';
+COMMENT ON COLUMN imoveis.id_imovel IS 'Identificador único para cada imóvel (auto-incrementado).';
+COMMENT ON COLUMN imoveis.status IS 'Status atual do imóvel (Disponível, Alugado, etc.).';
+
+
+-- =============================================================================
+-- TABELA: administradores
+-- Armazena os dados de login dos administradores do sistema.
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS administradores (
+    id_admin SERIAL PRIMARY KEY,
+    usuario VARCHAR(100) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL,
+    nome_completo VARCHAR(255),
+    data_cadastro TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE administradores IS 'Armazena os dados dos administradores do sistema.';
+COMMENT ON COLUMN administradores.senha_hash IS 'Hash da senha do administrador (NUNCA armazenar em texto puro).';
+
+-- Inserção do administrador padrão: usuário 'admin', senha 'admin123'
+-- O hash foi ATUALIZADO conforme solicitado.
+INSERT INTO administradores (usuario, senha_hash, nome_completo)
+VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Administrador Padrão')
+ON CONFLICT (usuario) DO NOTHING; -- Não faz nada se o usuário 'admin' já existir.
+
+
+-- =============================================================================
+-- TABELA: contratos
+-- Armazena os dados dos contratos de aluguel, ligando clientes e imóveis.
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS contratos (
+    id_contrato SERIAL PRIMARY KEY,
+    id_cliente_fk INT NOT NULL,
+    id_imovel_fk INT NOT NULL,
+    valor_aluguel_mensal NUMERIC(10, 2) NOT NULL,
+    data_inicio DATE NOT NULL,
+    data_fim DATE NOT NULL,
+    status_contrato VARCHAR(20) NOT NULL DEFAULT 'Ativo', -- Ex: Ativo, Inativo, Expirado
+    data_assinatura TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    -- Definição das chaves estrangeiras
+    CONSTRAINT fk_cliente FOREIGN KEY (id_cliente_fk) REFERENCES clientes(id_cliente),
+    CONSTRAINT fk_imovel FOREIGN KEY (id_imovel_fk) REFERENCES imoveis(id_imovel)
+);
+
+COMMENT ON TABLE contratos IS 'Registra os contratos de aluguel firmados entre clientes e a imobiliária.';
+COMMENT ON COLUMN contratos.id_cliente_fk IS 'Chave estrangeira que referencia o ID do cliente na tabela clientes.';
+COMMENT ON COLUMN contratos.id_imovel_fk IS 'Chave estrangeira que referencia o ID do imóvel na tabela imoveis.';
+
+
+-- =============================================================================
+-- FUNÇÕES E TRIGGERS PARA INTEGRIDADE REFERENCIAL AUTOMÁTICA
+-- Lógica para deletar contratos automaticamente quando um cliente ou imóvel é removido.
+-- =============================================================================
+
+-- 1. Função para deletar contratos de um cliente removido
+CREATE OR REPLACE FUNCTION fn_deletar_contratos_cliente()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Deleta os contratos associados ao cliente que está sendo removido.
+    DELETE FROM contratos WHERE id_cliente_fk = OLD.id_cliente;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+COMMENT ON FUNCTION fn_deletar_contratos_cliente() IS 'Função de trigger para deletar contratos associados a um cliente que foi removido.';
+
+-- 2. Trigger que aciona a função acima na tabela 'clientes'
+CREATE OR REPLACE TRIGGER trg_antes_deletar_cliente
+BEFORE DELETE ON clientes
+FOR EACH ROW
+EXECUTE FUNCTION fn_deletar_contratos_cliente();
+
+COMMENT ON TRIGGER trg_antes_deletar_cliente ON clientes IS 'Aciona a função para limpar os contratos antes de um cliente ser deletado.';
+
+
+-- 3. Função para deletar contratos de um imóvel removido
+CREATE OR REPLACE FUNCTION fn_deletar_contratos_imovel()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Deleta os contratos associados ao imóvel que está sendo removido.
+    DELETE FROM contratos WHERE id_imovel_fk = OLD.id_imovel;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+COMMENT ON FUNCTION fn_deletar_contratos_imovel() IS 'Função de trigger para deletar contratos associados a um imóvel que foi removido.';
+
+-- 4. Trigger que aciona a função acima na tabela 'imoveis'
+CREATE OR REPLACE TRIGGER trg_antes_deletar_imovel
+BEFORE DELETE ON imoveis
+FOR EACH ROW
+EXECUTE FUNCTION fn_deletar_contratos_imovel();
+
+COMMENT ON TRIGGER trg_antes_deletar_imovel ON imoveis IS 'Aciona a função para limpar os contratos antes de um imóvel ser deletado.';
+
+-- =============================================================================
+-- FIM DO SCRIPT
+-- =============================================================================
