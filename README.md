@@ -58,8 +58,8 @@ Antes de começar, você precisará ter instalado:
 
 ### 2. Configuração do Banco de Dados
 
-1.  Após instalar o PostgreSQL, crie um novo banco de dados. Você pode utilizar o [script Banco de dados](https://github.com/GabrielWalendolf/imobiliaria-manga/blob/main/src/main/java/br/edu/univille/poo/dao/Script_Criacao_Banco_Imobiliaria.txt)  `imobiliaria` ou outro nome de sua preferência.
-2.  Execute o script SQL completo para criar todas as tabelas, triggers e o usuário administrador padrão. O script pode ser encontrado no repositório.
+1.  Após instalar o PostgreSQL, crie um novo banco de dados. Você pode utilizar o [script Banco de dados](https://github.com/GabrielWalendolf/imobiliaria-manga/blob/main/src/main/java/br/edu/univille/poo/dao/Script_Criacao_Banco_Imobiliaria.txt ) e nomeá-lo como `imobiliaria_db` ou outro nome de sua preferência.
+2.  Execute o script SQL completo para criar todas as tabelas, triggers e o usuário administrador padrão.
     *   **Usuário Admin Padrão:** `admin`
     *   **Senha:** `admin123`
 
@@ -87,3 +87,8 @@ Com o Maven configurado, você pode compilar e executar o projeto com um único 
 
 ```bash
 mvn compile exec:java
+```
+O menu interativo do sistema será iniciado no seu terminal. Use as setas (▲/▼) para navegar e a tecla Enter para selecionar as opções. </br>
+👨‍💻 Autores</br>
+[GabrielWalendolf](https://github.com/GabrielWalendolf)</br>
+Este README foi gerado para auxiliar na documentação e uso do projeto. Sinta-se à vontade para contribuir ou reportar issues.
