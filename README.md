@@ -58,7 +58,7 @@ Antes de começar, você precisará ter instalado:
 
 ### 2. Configuração do Banco de Dados
 
-1.  Após instalar o PostgreSQL, crie um novo banco de dados. Você pode chamá-lo de `imobiliaria_db` ou outro nome de sua preferência.
+1.  Após instalar o PostgreSQL, crie um novo banco de dados. Você pode utilizar o [script Banco de dados](https://github.com/GabrielWalendolf/imobiliaria-manga/blob/main/src/main/java/br/edu/univille/poo/dao/Script_Criacao_Banco_Imobiliaria.txt)  `imobiliaria` ou outro nome de sua preferência.
 2.  Execute o script SQL completo para criar todas as tabelas, triggers e o usuário administrador padrão. O script pode ser encontrado no repositório.
     *   **Usuário Admin Padrão:** `admin`
     *   **Senha:** `admin123`
