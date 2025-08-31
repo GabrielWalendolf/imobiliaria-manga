@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+
+<VBox alignment="TOP_CENTER" prefHeight="480.0" prefWidth="800.0" spacing="20.0" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.univille.poo.dao.ListarContratosController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <stylesheets>
+        <String fx:value="@style.css" />
+    </stylesheets>
+
+    <children>
+        <Label text="Contratos de Aluguel Ativos" styleClass="title-label" />
+
+        <TableView fx:id="tabelaContratos" prefHeight="400.0" prefWidth="780.0">
+            <columns>
+                <TableColumn fx:id="colunaId" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="colunaIdCliente" prefWidth="100.0" text="ID Cliente" />
+                <TableColumn fx:id="colunaIdImovel" prefWidth="100.0" text="ID Imóvel" />
+                <TableColumn fx:id="colunaDataInicio" prefWidth="150.0" text="Data de Início" />
+                <TableColumn fx:id="colunaDataFim" prefWidth="150.0" text="Data de Fim" />
+                <TableColumn fx:id="colunaValor" prefWidth="120.0" text="Valor (R$ )" />
+                <TableColumn fx:id="colunaStatus" prefWidth="100.0" text="Status" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>

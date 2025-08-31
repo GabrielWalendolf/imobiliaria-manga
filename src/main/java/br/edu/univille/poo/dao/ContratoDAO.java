@@ -116,6 +116,21 @@ public class ContratoDAO extends BaseDAO {
         return lista;
     }
 
+    public List<Contrato> obterTodosAtivos() {
+        String sql = "SELECT * FROM contratos WHERE status = 'Ativo' ORDER BY data_inicio DESC";
+        List<Contrato> lista = new ArrayList<>();
+        try (var con = con(); var pre = con.prepareStatement(sql); var rs = pre.executeQuery()) {
+            while (rs.next()) {
+                // Supondo que você tenha um método 'mapRowToContrato' similar ao do ImovelDAO
+                lista.add(mapRowToContratoCompleto(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao obter contratos ativos: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     /**
      * Método auxiliar privado para mapear uma linha do ResultSet (que contém dados das 3 tabelas)
      * para um objeto Contrato totalmente preenchido.

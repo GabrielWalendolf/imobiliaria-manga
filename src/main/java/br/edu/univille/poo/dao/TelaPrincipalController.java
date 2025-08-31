@@ -78,15 +78,66 @@ public class TelaPrincipalController {
     // ===== MÉTODOS QUE ESTAVAM FALTANDO (A CORREÇÃO ESTÁ AQUI) =====
     @FXML
     private void listarImoveisDisponiveis(ActionEvent event) {
-        System.out.println("Ação: Listar imóveis disponíveis...");
-        // Futuramente, abrirá uma tela de listagem.
-        // abrirNovaJanela("ListarImoveis.fxml", "Imóveis Disponíveis");
+        System.out.println("Ação: Abrindo tela para listar imóveis disponíveis...");
+        try {
+            // 1. Carrega o arquivo FXML da nova janela
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ListarImoveis.fxml"));
+            Parent root = loader.load();
+
+            // 2. Cria a nova cena com o conteúdo carregado
+            Scene scene = new Scene(root);
+
+            // 3. <<<<<<< A CORREÇÃO ESTÁ AQUI >>>>>>>>>
+            // Aplica a folha de estilo programaticamente na nova cena.
+            // Isso garante que os estilos sejam carregados 100% das vezes.
+            String cssPath = getClass().getResource("style.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
+
+            // 4. Cria e configura a nova janela (Stage)
+            Stage stage = new Stage();
+            stage.setTitle("Imóveis Disponíveis");
+            stage.setScene(scene); // Usa a cena que acabamos de estilizar
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao abrir a tela de listagem de imóveis.");
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("ERRO CRÍTICO: Não foi possível encontrar o arquivo 'style.css'. Verifique se ele está na mesma pasta que os FXMLs.");
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void listarContratosAtivos(ActionEvent event) {
-        System.out.println("Ação: Listar contratos ativos...");
+        System.out.println("Ação: Abrindo tela para listar contratos ativos...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ListarContratos.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            // Aplica o CSS para garantir a consistência visual
+            String cssPath = getClass().getResource("style.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
+
+            Stage stage = new Stage();
+            stage.setTitle("Contratos Ativos");
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao abrir a tela de listagem de contratos.");
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("ERRO CRÍTICO: Não foi possível encontrar o arquivo 'style.css'.");
+            e.printStackTrace();
+        }
     }
+
 
     @FXML
     private void listarClientesComMaisContratos(ActionEvent event) {

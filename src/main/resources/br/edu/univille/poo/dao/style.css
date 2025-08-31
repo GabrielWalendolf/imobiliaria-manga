@@ -260,3 +260,10 @@
     -fx-border-width: 0;
     -fx-padding: 8px; /* Mantém o padding interno do campo de texto */
 }
+
+/* Estilo para o título no topo das telas de listagem */
+.header-label {
+    -fx-font-size: 22px;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10px 0;
+}
