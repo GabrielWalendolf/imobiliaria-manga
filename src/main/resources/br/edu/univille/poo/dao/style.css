@@ -1,0 +1,262 @@
+/* Estilo geral da janela (fundo) */
+.root {
+    -fx-background-color: #2D2D2D; /* Um cinza escuro, mais suave que o preto */
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Uma fonte moderna e legível */
+}
+
+/* Estilo para o título "Imobiliária Manga" */
+.title-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E0E0E0; /* Um branco suave */
+    -fx-padding: 0 0 10px 0; /* Espaçamento inferior */
+}
+
+/* Estilo base para todos os botões do menu */
+.button-menu {
+    -fx-background-color: #4CAF50; /* Verde principal */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px; /* Bordas arredondadas */
+    -fx-padding: 12px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2); /* Sombra sutil */
+}
+
+/* Efeito quando o mouse passa por cima do botão */
+.button-menu:hover {
+    -fx-background-color: #45a049; /* Um tom de verde um pouco mais escuro */
+    -fx-cursor: hand; /* Muda o cursor para uma mãozinha */
+}
+
+/* Efeito quando o botão é pressionado */
+.button-menu:pressed {
+    -fx-background-color: #3e8e41;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0.2, 0, 1);
+}
+
+/* Estilo especial para o botão de Administrador */
+.button-admin {
+    -fx-background-color: #f44336; /* Vermelho para destacar a importância */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);
+}
+
+.button-admin:hover {
+    -fx-background-color: #e53935;
+    -fx-cursor: hand;
+}
+
+.button-admin:pressed {
+    -fx-background-color: #d32f2f;
+}
+/* --- Estilos para Telas de Formulário --- */
+
+/* Estilo para os rótulos (Nome Completo:, CPF:, etc.) */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E0E0E0;
+}
+
+/* Estilo para os campos de texto */
+.form-textfield {
+    -fx-background-color: #424242;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #616161;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 8px;
+}
+
+/* Estilo para o campo de texto quando está focado (clicado) */
+.form-textfield:focused {
+    -fx-border-color: #4CAF50; /* Borda verde para indicar foco */
+    -fx-border-width: 2px;
+}
+
+/* Estilo para o botão "Salvar" */
+.button-save {
+    -fx-background-color: #4CAF50; /* Verde */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+}
+
+.button-save:hover {
+    -fx-background-color: #45a049;
+    -fx-cursor: hand;
+}
+
+/* Estilo para o botão "Cancelar" */
+.button-cancel {
+    -fx-background-color: #757575; /* Cinza */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #616161;
+    -fx-cursor: hand;
+}
+/* --- Estilos para ComboBox e DatePicker --- */
+
+/* Estilo para a ComboBox */
+.form-combobox {
+    -fx-background-color: #424242;
+    -fx-border-color: #616161;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.form-combobox .list-cell {
+    -fx-text-fill: #E0E0E0;
+    -fx-background-color: #424242;
+}
+
+.form-combobox .list-cell:hover {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.form-combobox .arrow {
+    -fx-background-color: #4CAF50;
+}
+
+/* Estilo para o DatePicker */
+.form-datepicker .text-field {
+    -fx-background-color: #424242;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #616161;
+    -fx-border-radius: 5px 0 0 5px;
+}
+
+.form-datepicker .arrow-button {
+    -fx-background-color: #4CAF50;
+    -fx-background-radius: 0 5px 5px 0;
+}
+
+.form-datepicker .arrow-button .arrow {
+    -fx-background-color: white;
+}
+
+.form-datepicker .date-picker-popup {
+    -fx-background-color: #2D2D2D;
+    -fx-border-color: #4CAF50;
+}
+
+.form-datepicker .date-picker-popup .day-cell:hover {
+    -fx-background-color: #45a049;
+}
+
+.form-datepicker .date-picker-popup .day-cell.today {
+    -fx-border-color: #f44336;
+}
+
+.form-datepicker .date-picker-popup .day-cell:selected {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+/* --- Estilos para o Painel de Administrador --- */
+
+/* Estilo para o botão "Editar" */
+.button-edit {
+    -fx-background-color: #FFC107; /* Amarelo/Âmbar */
+    -fx-text-fill: #212121; /* Texto escuro para contraste */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+}
+
+.button-edit:hover {
+    -fx-background-color: #FFB300;
+    -fx-cursor: hand;
+}
+
+/* Estilo para o botão "Deletar" */
+.button-delete {
+    -fx-background-color: #f44336; /* Vermelho, igual ao botão admin */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 20px;
+}
+
+.button-delete:hover {
+    -fx-background-color: #e53935;
+    -fx-cursor: hand;
+}
+
+/* Estilização da TableView para o tema escuro */
+.table-view {
+    -fx-background-color: #424242;
+    -fx-selection-bar: #4CAF50; /* Barra de seleção verde */
+    -fx-selection-bar-non-focused: #45a049;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #383838;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: #2D2D2D;
+    -fx-border-width: 0 1px 1px 0;
+    -fx-size: 40;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #E0E0E0;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 10px;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: #E0E0E0;
+    -fx-border-color: #2D2D2D;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 8px;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #424242;
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #3d3d3d;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #555555;
+}
+
+/* --- Estilos Opcionais para Edição em Linha na TableView --- */
+
+/* Estiliza a célula de texto quando ela está no modo de edição */
+.table-cell:editing {
+    -fx-padding: 0; /* Remove o padding para que o TextField ocupe todo o espaço */
+    -fx-background-color: #555555; /* Um fundo um pouco mais claro para destacar */
+    -fx-border-color: #FFC107; /* Borda amarela para indicar modo de edição */
+    -fx-border-width: 1px;
+}
+
+/* Garante que o TextField dentro da célula de edição não tenha bordas próprias */
+.table-cell:editing .text-field {
+    -fx-border-width: 0;
+    -fx-padding: 8px; /* Mantém o padding interno do campo de texto */
+}

@@ -1,28 +1,29 @@
 package br.edu.univille.poo.dao;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 /**
- * Classe modelo para representar a entidade Contrato.
- * Corresponde à tabela 'contratos' e representa o relacionamento
- * entre um Cliente e um Imovel.
+ * Modelo de dados para a entidade Contrato.
+ * Representa um contrato de aluguel entre um cliente e um imóvel.
  */
-public class Contratos {
+public class Contrato { // Nome da classe no singular
 
     private long id;
-    private BigDecimal valorAluguelMensal; // BigDecimal é ideal para valores monetários.
+    private BigDecimal valorAluguel; // Usar BigDecimal para valores monetários é a melhor prática
     private Date dataInicio;
     private Date dataFim;
-    private String statusContrato; // Ex: 'Ativo', 'Expirado'
-    private Date dataAssinatura;
+    private String statusContrato;
 
-    // Objetos para representar as chaves estrangeiras (relacionamentos)
+    // Relacionamentos com outras entidades
     private Cliente cliente;
     private Imovel imovel;
 
-    // Getters e Setters para todos os atributos
+    // Construtor padrão
+    public Contrato() {
+    }
 
+    // Getters e Setters
     public long getId() {
         return id;
     }
@@ -31,12 +32,12 @@ public class Contratos {
         this.id = id;
     }
 
-    public BigDecimal getValorAluguelMensal() {
-        return valorAluguelMensal;
+    public BigDecimal getValorAluguel() {
+        return valorAluguel;
     }
 
-    public void setValorAluguelMensal(BigDecimal valorAluguelMensal) {
-        this.valorAluguelMensal = valorAluguelMensal;
+    public void setValorAluguel(BigDecimal valorAluguel) {
+        this.valorAluguel = valorAluguel;
     }
 
     public Date getDataInicio() {
@@ -63,16 +64,6 @@ public class Contratos {
         this.statusContrato = statusContrato;
     }
 
-    public Date getDataAssinatura() {
-        return dataAssinatura;
-    }
-
-    public void setDataAssinatura(Date dataAssinatura) {
-        this.dataAssinatura = dataAssinatura;
-    }
-
-    // Getters e Setters para os objetos relacionados
-
     public Cliente getCliente() {
         return cliente;
     }
@@ -87,5 +78,15 @@ public class Contratos {
 
     public void setImovel(Imovel imovel) {
         this.imovel = imovel;
+    }
+
+    @Override
+    public String toString() {
+        return "Contrato{" +
+                "id=" + id +
+                ", status='" + statusContrato + '\'' +
+                ", cliente=" + (cliente != null ? cliente.getNomeCompleto() : "N/A") +
+                ", imovel=" + (imovel != null ? imovel.getEndereco() : "N/A") +
+                '}';
     }
 }

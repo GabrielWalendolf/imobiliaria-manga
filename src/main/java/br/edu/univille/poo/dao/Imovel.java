@@ -1,6 +1,5 @@
 package br.edu.univille.poo.dao;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,7 +14,7 @@ public class Imovel {
     private String cidade;
     private String cep;
     private String tipoImovel;
-    private BigDecimal areaM2; // BigDecimal é ideal para precisão decimal.
+    private double areaM2; // BigDecimal é ideal para precisão decimal.
     private int quartos;
     private int banheiros;
     private int vagasGaragem;
@@ -72,11 +71,11 @@ public class Imovel {
         this.tipoImovel = tipoImovel;
     }
 
-    public BigDecimal getAreaM2() {
+    public double getAreaM2() {
         return areaM2;
     }
 
-    public void setAreaM2(BigDecimal areaM2) {
+    public void setAreaM2(double areaM2) {
         this.areaM2 = areaM2;
     }
 
@@ -118,5 +117,11 @@ public class Imovel {
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    @Override
+    public String toString() {
+        // Retorna uma string amigável para ser exibida na ComboBox
+        return tipoImovel + " - " + endereco + ", " + bairro;
     }
 }

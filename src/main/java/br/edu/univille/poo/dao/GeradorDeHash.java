@@ -9,15 +9,14 @@ public class GeradorDeHash {
 
     public static void main(String[] args) {
         String senhaParaHashear = "admin123"; // A senha que você quer usar
-        String hashGerado = gerarHashSHA256(senhaParaHashear);
+        String hashGerado = gerarHash(senhaParaHashear);
 
         System.out.println("A senha é: " + senhaParaHashear);
         System.out.println("O hash SHA-256 correspondente é:");
         System.out.println(hashGerado);
     }
 
-    // Copie este método exatamente como está no seu AdminDAO
-    private static String gerarHashSHA256(String data) {
+    public static String gerarHash(String data) { // Renomeei para ficar mais genérico
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(data.getBytes(StandardCharsets.UTF_8));
@@ -31,7 +30,8 @@ public class GeradorDeHash {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Algoritmo de hash não encontrado.", e);
+            // Em uma aplicação real, logar este erro seria importante.
+            throw new RuntimeException("Algoritmo de hash SHA-256 não encontrado.", e);
         }
     }
 }

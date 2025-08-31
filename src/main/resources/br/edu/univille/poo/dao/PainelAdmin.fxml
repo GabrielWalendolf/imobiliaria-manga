@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- O VBox é o container principal da janela -->
+<VBox alignment="TOP_CENTER" spacing="15.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.univille.poo.dao.PainelAdminController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <!-- Título do Painel -->
+    <Label styleClass="title-label" text="Painel de Administrador" />
+
+    <!-- TabPane para organizar as seções -->
+    <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+
+            <!-- ABA 1: GERENCIAR CLIENTES -->
+            <Tab text="Gerenciar Clientes">
+                <content>
+                    <AnchorPane>
+                        <children>
+                            <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <padding>
+                                    <Insets top="15.0" />
+                                </padding>
+                                <children>
+                                    <!-- Tabela para exibir os clientes -->
+                                    <TableView fx:id="tabelaClientes" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="colunaClienteId" prefWidth="75.0" text="ID" />
+                                            <TableColumn fx:id="colunaClienteNome" prefWidth="300.0" text="Nome Completo" />
+                                            <TableColumn fx:id="colunaClienteCPF" prefWidth="150.0" text="CPF" />
+                                            <TableColumn fx:id="colunaClienteTelefone" prefWidth="150.0" text="Telefone" />
+                                        </columns>
+                                    </TableView>
+                                    <!-- Botões de Ação para Clientes -->
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                        <children>
+                                            <Button mnemonicParsing="false" onAction="#editarClienteSelecionado" styleClass="button-edit" text="Editar Cliente" />
+                                            <Button mnemonicParsing="red" onAction="#deletarClienteSelecionado" styleClass="button-delete" text="Deletar Cliente" />
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+
+            <!-- ABA 2: GERENCIAR IMÓVEIS -->
+            <Tab text="Gerenciar Imóveis">
+                <content>
+                    <AnchorPane>
+                        <children>
+                            <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <padding>
+                                    <Insets top="15.0" />
+                                </padding>
+                                <children>
+                                    <!-- Tabela para exibir os imóveis -->
+                                    <TableView fx:id="tabelaImoveis" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="colunaImovelId" prefWidth="75.0" text="ID" />
+                                            <TableColumn fx:id="colunaImovelEndereco" prefWidth="300.0" text="Endereço" />
+                                            <TableColumn fx:id="colunaImovelBairro" prefWidth="150.0" text="Bairro" />
+                                            <TableColumn fx:id="colunaImovelTipo" prefWidth="150.0" text="Tipo" />
+                                            <TableColumn fx:id="colunaImovelStatus" prefWidth="120.0" text="Status" />
+                                        </columns>
+                                    </TableView>
+                                    <!-- Botões de Ação para Imóveis -->
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                        <children>
+                                            <Button mnemonicParsing="false" onAction="#editarImovelSelecionado" styleClass="button-edit" text="Editar Imóvel" />
+                                            <Button mnemonicParsing="false" onAction="#deletarImovelSelecionado" styleClass="button-delete" text="Deletar Imóvel" />
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+
+            <!-- ABA 3: GERENCIAR CONTRATOS -->
+            <Tab text="Gerenciar Contratos">
+                <content>
+                    <AnchorPane>
+                        <children>
+                            <VBox spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <padding>
+                                    <Insets top="15.0" />
+                                </padding>
+                                <children>
+                                    <!-- Tabela para exibir os contratos -->
+                                    <TableView fx:id="tabelaContratos" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="colunaContratoId" prefWidth="75.0" text="ID" />
+                                            <TableColumn fx:id="colunaContratoCliente" prefWidth="250.0" text="Cliente" />
+                                            <TableColumn fx:id="colunaContratoImovel" prefWidth="250.0" text="Imóvel" />
+                                            <TableColumn fx:id="colunaContratoInicio" prefWidth="120.0" text="Data de Início" />
+                                            <TableColumn fx:id="colunaContratoFim" prefWidth="120.0" text="Data de Fim" />
+                                            <TableColumn fx:id="colunaContratoStatus" prefWidth="120.0" text="Status" />
+                                        </columns>
+                                    </TableView>
+                                    <!-- Botões de Ação para Contratos -->
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                        <children>
+                                            <Button mnemonicParsing="false" onAction="#editarContratoSelecionado" styleClass="button-edit" text="Editar Contrato" />
+                                            <Button mnemonicParsing="false" onAction="#deletarContratoSelecionado" styleClass="button-delete" text="Deletar Contrato" />
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+
+        </tabs>
+    </TabPane>
+</VBox>

@@ -12,9 +12,21 @@
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- ESTA LINHA É A MAIS IMPORTANTE PARA O TESTE -->
+<!--        <exec.mainClass>br.edu.univille.poo.dao.App</exec.mainClass>-->
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>22</version> <!-- Use a versão correspondente ao seu Java -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>22</version>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -30,6 +42,21 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version> <!-- Esta é a versão mais recente e estável do plugin -->
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running with: mvn javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <!-- Aponte para a sua classe principal da GUI -->
+                            <mainClass>br.edu.univille.poo.dao.App</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.2.0</version> <!-- Ou a versão que o Maven estiver usando -->
@@ -42,6 +69,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

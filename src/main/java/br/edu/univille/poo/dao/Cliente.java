@@ -1,10 +1,10 @@
 package br.edu.univille.poo.dao;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
- * Classe modelo para representar a entidade Cliente.
- * Corresponde à tabela 'clientes' no banco de dados.
+ * Modelo de dados para a entidade Cliente.
+ * Representa um cliente da imobiliária.
  */
 public class Cliente {
 
@@ -13,10 +13,13 @@ public class Cliente {
     private String cpf;
     private String telefone;
     private String email;
-    private Date dataCadastro;
+    private Date dataCadastro; // java.sql.Date é compatível com o JDBC
 
-    // Getters e Setters para todos os atributos
+    // Construtor padrão
+    public Cliente() {
+    }
 
+    // Getters e Setters
     public long getId() {
         return id;
     }
@@ -63,5 +66,11 @@ public class Cliente {
 
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    @Override
+    public String toString() {
+        // Útil para exibir clientes em ComboBoxes ou listas
+        return nomeCompleto + " (CPF: " + cpf + ")";
     }
 }
