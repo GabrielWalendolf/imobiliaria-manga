@@ -1,93 +1,127 @@
-# Imobiliária Manga - Versão 2.0.0.2025
+# Sistema de Gestão de Imobiliária - Web
 
-Bem-vindo ao repositório oficial do projeto Imobiliária Manga, uma aplicação web completa para gestão de imóveis, desenvolvida com tecnologias modernas como Angular e Spring Boot.
+[![Java CI with Maven](https://github.com/GabrielWalendolf/imobiliaria-manga/actions/workflows/build.yml/badge.svg )](https://github.com/GabrielWalendolf/imobiliaria-manga/actions/workflows/build.yml )
 
-[![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg )](https://opensource.org/licenses/MIT )
-[![Status](https://img.shields.io/badge/status-ativo-success.svg )]()
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white )
+![Spring](https://img.shields.io/badge/Spring_Boot-3-6DB33F?style=for-the-badge&logo=spring&logoColor=white )
+![Angular](https://img.shields.io/badge/Angular-15-DD0031?style=for-the-badge&logo=angular&logoColor=white )
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white )
 
-![imobiliaria-manga-capa](https://user-images.githubusercontent.com/106390731/230789783-7fa51c8a-7a5f-440c-b24e-48995393972c.png )
+## 📖 Sobre o Projeto
 
-Este projeto simula uma plataforma imobiliária onde usuários podem se cadastrar, anunciar imóveis para aluguel ou venda e buscar por propriedades de interesse. A versão 2.0.0.2025 representa uma evolução significativa, com melhorias na arquitetura, novas funcionalidades e atualizações de segurança.
+Este é um sistema web completo para a gestão de uma imobiliária, desenvolvido com uma arquitetura moderna que separa o backend (API REST) do frontend (Single Page Application). O projeto foi criado para aplicar conceitos avançados de desenvolvimento de software, incluindo persistência de dados com Spring Data JPA, segurança com Spring Security e uma interface de usuário reativa com Angular.
 
-## 📋 Índice
+O sistema permite o gerenciamento completo de clientes e imóveis, com funcionalidades para cadastro, busca, visualização e administração, simulando uma plataforma imobiliária real.
 
-- [Funcionalidades Principais](#-funcionalidades-principais)
-- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [Arquitetura do Projeto](#-arquitetura-do-projeto)
-- [Como Executar o Projeto](#-como-executar-o-projeto)
-- [Como Contribuir](#-como-contribuir)
-- [Licença](#-licença)
+---
 
 ## ✨ Funcionalidades Principais
 
-A plataforma oferece um conjunto robusto de funcionalidades para administradores, proprietários e clientes:
+A plataforma oferece as seguintes funcionalidades:
 
-*   **Cadastro de Usuários:** Sistema de autenticação e autorização para diferentes perfis de usuário.
-*   **Gestão de Imóveis:** Funcionalidades de CRUD (Criar, Ler, Atualizar e Deletar) para anúncios de imóveis.
-*   **Busca Avançada e Filtros:** Permite aos usuários pesquisar imóveis por tipo, localização, faixa de preço e outras características.
-*   **Upload de Imagens:** Suporte para múltiplas imagens por anúncio, armazenadas de forma eficiente.
-*   **Design Responsivo:** Interface adaptável para uma ótima experiência em desktops, tablets e smartphones.
+*   **Gestão de Imóveis:**
+    *   Cadastro de novos imóveis com características detalhadas (endereço, área, quartos, etc.).
+    *   Upload de múltiplas imagens por imóvel.
+    *   Funcionalidades CRUD (Criar, Ler, Atualizar, Deletar) para os anúncios.
+
+*   **Portal do Cliente:**
+    *   Cadastro e autenticação de usuários.
+    *   Busca avançada de imóveis com filtros por tipo, preço e localização.
+    *   Visualização detalhada das propriedades disponíveis.
+
+*   **Painel de Administrador:**
+    *   Acesso a funcionalidades administrativas para gerenciar todos os imóveis e usuários do sistema.
+    *   Interface segura e dedicada para operações críticas.
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
-O projeto é construído sobre uma stack de tecnologias modernas e robustas, separando claramente as responsabilidades entre o frontend e o backend.
+*   **Backend (API REST):**
+    *   **Linguagem:** [Java 17](https://www.oracle.com/java/ )
+    *   **Framework:** [Spring Boot 3](https://spring.io/projects/spring-boot )
+    *   **Persistência:** [Spring Data JPA](https://spring.io/projects/spring-data-jpa ) / Hibernate
+    *   **Segurança:** [Spring Security](https://spring.io/projects/spring-security )
+    *   **Banco de Dados:** [PostgreSQL 16](https://www.postgresql.org/ )
+    *   **Gerenciador de Dependências:** [Apache Maven](https://maven.apache.org/ )
 
-### **Frontend (Client-Side)**
+*   **Frontend (Single Page Application):**
+    *   **Framework:** [Angular 15](https://angular.io/ )
+    *   **Linguagem:** [TypeScript](https://www.typescriptlang.org/ )
+    *   **Estilização:** SCSS e [Angular Material](https://material.angular.io/ )
 
-*   **Angular 15:** Framework principal para a construção da interface de usuário reativa e dinâmica.
-*   **TypeScript:** Superset do JavaScript que adiciona tipagem estática ao código.
-*   **HTML5 e SCSS:** Para estruturação e estilização dos componentes.
-*   **Angular Material:** Biblioteca de componentes de UI para um design consistente e moderno.
-
-### **Backend (Server-Side)**
-
-*   **Java 17:** Linguagem de programação principal para o desenvolvimento do servidor.
-*   **Spring Boot 3:** Framework para a criação de aplicações Java robustas e autoconfiguráveis.
-*   **Spring Security:** Para gerenciamento de autenticação e controle de acesso.
-*   **Spring Data JPA / Hibernate:** Para persistência de dados e mapeamento objeto-relacional.
-*   **PostgreSQL:** Banco de dados relacional utilizado para armazenar os dados da aplicação.
-*   **Maven:** Ferramenta para gerenciamento de dependências e build do projeto.
-
-## 🏗️ Arquitetura do Projeto
-
-A aplicação segue uma arquitetura desacoplada, com o frontend (Angular) e o backend (Spring Boot) operando de forma independente.
-
-*   **`imobiliaria-manga` (Frontend):** Contém todo o código-fonte da aplicação Angular. O código desta versão está na branch `AppV.2.0.0.2025`.
-*   **`imobiliaria` (Backend):** Contém a API RESTful desenvolvida com Spring Boot, responsável por todas as regras de negócio e comunicação com o banco de dados.
-
-Essa separação facilita a manutenção, escalabilidade e o desenvolvimento paralelo das duas partes do sistema.
+---
 
 ## 🚀 Como Executar o Projeto
 
-Para executar a aplicação em seu ambiente local, siga os passos abaixo.
+Siga os passos abaixo para configurar e rodar o projeto em seu ambiente local.
 
-### **Pré-requisitos**
+### 1. Pré-requisitos
 
-*   [Node.js](https://nodejs.org/ ) e npm/yarn
+Antes de começar, você precisará ter instalado:
+*   [JDK (Java Development Kit)](https://www.oracle.com/java/technologies/downloads/ ) - Versão 17 ou superior.
+*   [Apache Maven](https://maven.apache.org/download.cgi )
+*   [Node.js e npm](https://nodejs.org/ )
 *   [Angular CLI](https://angular.io/cli )
-*   [Java JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html ) ou superior
-*   [Maven](https://maven.apache.org/ )
 *   [PostgreSQL](https://www.postgresql.org/download/ )
+*   [Git](https://git-scm.com/downloads )
 
-### **1. Backend (API)**
+### 2. Configuração do Banco de Dados
 
-```bash
-# Clone o repositório principal
-git clone https://github.com/GabrielWalendolf/imobiliaria-manga.git
+1.  Após instalar o PostgreSQL, crie um novo banco de dados (ex: `imobiliaria_web_db`).
+2.  O Spring Boot com JPA (`ddl-auto=update`) pode criar as tabelas automaticamente na primeira execução.
 
-# Navegue até a pasta do backend
-cd imobiliaria-manga/imobiliaria
+### 3. Configuração e Execução do Backend
 
-# Instale as dependências
-mvn install
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/GabrielWalendolf/imobiliaria-manga.git
+    cd imobiliaria-manga
+    ```
 
-# Configure seu banco de dados no arquivo `src/main/resources/application.properties`
-# Exemplo de configuração para PostgreSQL:
-# spring.datasource.url=jdbc:postgresql://localhost:5432/nome_do_banco
-# spring.datasource.username=seu_usuario
-# spring.datasource.password=sua_senha
-# spring.jpa.hibernate.ddl-auto=update
+2.  **Configure a Conexão com o Banco:**
+    Abra o arquivo `imobiliaria/src/main/resources/application.properties`.
+    Altere os dados de conexão para corresponder à sua configuração do PostgreSQL.
+    ```properties
+    spring.datasource.url=jdbc:postgresql://localhost:5432/imobiliaria_web_db
+    spring.datasource.username=seu_usuario_postgres
+    spring.datasource.password=sua_senha_postgres
+    spring.jpa.hibernate.ddl-auto=update
+    ```
 
-# Execute a aplicação
-mvn spring-boot:run
-```
+3.  **Execute a API:**
+    Navegue até a pasta do backend e execute o comando:
+    ```bash
+    cd imobiliaria
+    mvn spring-boot:run
+    ```
+    A API estará rodando em `http://localhost:8080`.
+
+### 4. Configuração e Execução do Frontend
+
+1.  **Acesse a branch correta:**
+    Em um novo terminal, na raiz do projeto, mude para a branch da aplicação web.
+    ```bash
+    git checkout AppV.2.0.0.2025
+    ```
+
+2.  **Instale as dependências:**
+    Navegue até a pasta do frontend.
+    ```bash
+    cd imobiliaria-manga
+    npm install
+    ```
+
+3.  **Execute a Aplicação:**
+    ```bash
+    ng serve
+    ```
+    A interface web estará acessível em `http://localhost:4200`.
+
+---
+
+### 👨‍💻 Autor
+
+*   **[GabrielWalendolf](https://github.com/GabrielWalendolf )**
+
+Este README foi gerado para auxiliar na documentação e uso do projeto. Sinta-se à vontade para contribuir ou reportar issues.
