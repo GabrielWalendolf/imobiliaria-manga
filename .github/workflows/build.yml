@@ -1,22 +1,29 @@
-name: Build
+name: Java CI with Maven
 
 on:
   push:
-    branches: [ main, AppV.2.0.0.2025 ]
+    branches: [ "main", "AppV.2.0.0.2025" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      # 1. Clona o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Usando v4 por ser a mais estável, mas v5 também funciona
 
+      # 2. Configura o ambiente Java (JDK)
       - name: Set up JDK 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
 
-      - name: Build with Maven
-        run: mvn package
-        working-directory: imobiliaria
+      # 3. Compila e testa o código com Maven
+      # Não precisa de 'working-directory' porque o pom.xml está na raiz.
+      - name: Build and Test with Maven
+        run: mvn -B verify
