@@ -1,5 +1,7 @@
 package br.edu.univille.poo.dao;
 
+import br.edu.univille.poo.model.Admin;
+
 import java.sql.SQLException;
 import java.util.Optional;
 

@@ -1,26 +1,27 @@
 package br.edu.univille.poo.dao;
 
+import br.edu.univille.poo.model.Imovel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ImovelDAO extends BaseDAO {
 
     public boolean cadastrar(Imovel imovel) {
-        String sql = "INSERT INTO imoveis(endereco, tipo_imovel, area_m2, quartos, banheiros, " +
-                "vagas_garagem, status, bairro, cidade, cep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (var con = con(); var pre = con.prepareStatement(sql)) {
+        String sql = "INSERT INTO imoveis(endereco, bairro, cidade, cep, tipo_imovel, area_m2, quartos, banheiros, vagas_garagem, status, data_cadastro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (var con = ConnectionFactory.getInstance().get();
+             var pre = con.prepareStatement(sql)) {
             pre.setString(1, imovel.getEndereco());
-            pre.setString(2, imovel.getTipoImovel());
-            pre.setDouble(3, imovel.getAreaM2());
-            pre.setInt(4, imovel.getQuartos());
-            pre.setInt(5, imovel.getBanheiros());
-            pre.setInt(6, imovel.getVagasGaragem());
-            pre.setString(7, imovel.getStatus());
-            pre.setString(8, imovel.getBairro());
-            pre.setString(9, imovel.getCidade());
-            pre.setString(10, imovel.getCep());
+            pre.setString(2, imovel.getBairro());
+            pre.setString(3, imovel.getCidade());
+            pre.setString(4, imovel.getCep());
+            pre.setString(5, imovel.getTipoImovel());
+            pre.setBigDecimal(6, imovel.getAreaM2());
+            pre.setInt(7, imovel.getQuartos());
+            pre.setInt(8, imovel.getBanheiros());
+            pre.setInt(9, imovel.getVagasGaragem());
+            pre.setString(10, imovel.getStatus());
+            pre.setDate(11, imovel.getDataCadastro());
             return pre.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar imóvel: " + e.getMessage());
@@ -29,19 +30,20 @@ public class ImovelDAO extends BaseDAO {
     }
 
     public boolean atualizar(Imovel imovel) {
-        String sql = "UPDATE imoveis SET endereco = ?, tipo_imovel = ?, area_m2 = ?, quartos = ?, " +
-                "banheiros = ?, vagas_garagem = ?, status = ?, bairro = ?, cep = ? WHERE id_imovel = ?";
-        try (var con = con(); var pre = con.prepareStatement(sql)) {
+        String sql = "UPDATE imoveis SET endereco=?, bairro=?, cidade=?, cep=?, tipo_imovel=?, area_m2=?, quartos=?, banheiros=?, vagas_garagem=?, status=? WHERE id=?";
+        try (var con = ConnectionFactory.getInstance().get();
+             var pre = con.prepareStatement(sql)) {
             pre.setString(1, imovel.getEndereco());
-            pre.setString(2, imovel.getTipoImovel());
-            pre.setDouble(3, imovel.getAreaM2());
-            pre.setInt(4, imovel.getQuartos());
-            pre.setInt(5, imovel.getBanheiros());
-            pre.setInt(6, imovel.getVagasGaragem());
-            pre.setString(7, imovel.getStatus());
-            pre.setString(8, imovel.getBairro());
-            pre.setString(9, imovel.getCep());
-            pre.setLong(10, imovel.getId());
+            pre.setString(2, imovel.getBairro());
+            pre.setString(3, imovel.getCidade());
+            pre.setString(4, imovel.getCep());
+            pre.setString(5, imovel.getTipoImovel());
+            pre.setBigDecimal(6, imovel.getAreaM2());
+            pre.setInt(7, imovel.getQuartos());
+            pre.setInt(8, imovel.getBanheiros());
+            pre.setInt(9, imovel.getVagasGaragem());
+            pre.setString(10, imovel.getStatus());
+            pre.setLong(11, imovel.getId());
             return pre.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("Erro ao atualizar imóvel: " + e.getMessage());
@@ -49,9 +51,10 @@ public class ImovelDAO extends BaseDAO {
         }
     }
 
-    public boolean deletarPorId(long id) {
-        String sql = "DELETE FROM imoveis WHERE id_imovel = ?";
-        try (var con = con(); var pre = con.prepareStatement(sql)) {
+    public boolean deletar(long id) {
+        String sql = "DELETE FROM imoveis WHERE id=?";
+        try (var con = ConnectionFactory.getInstance().get();
+             var pre = con.prepareStatement(sql)) {
             pre.setLong(1, id);
             return pre.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -60,47 +63,59 @@ public class ImovelDAO extends BaseDAO {
         }
     }
 
-    public Optional<Imovel> obterPorId(long id) {
-        String sql = "SELECT * FROM imoveis WHERE id_imovel = ?";
-        try (var con = con(); var pre = con.prepareStatement(sql)) {
+    public Imovel buscarPorId(long id) {
+        String sql = "SELECT * FROM imoveis WHERE id=?";
+        try (var con = ConnectionFactory.getInstance().get();
+             var pre = con.prepareStatement(sql)) {
             pre.setLong(1, id);
-            try (var rs = pre.executeQuery()) {
-                if (rs.next()) {
-                    return Optional.of(mapRowToImovel(rs));
-                }
+            var res = pre.executeQuery();
+            if (res.next()) {
+                return new Imovel(
+                        res.getLong("id"),
+                        res.getString("endereco"),
+                        res.getString("bairro"),
+                        res.getString("cidade"),
+                        res.getString("cep"),
+                        res.getString("tipo_imovel"),
+                        res.getBigDecimal("area_m2"),
+                        res.getInt("quartos"),
+                        res.getInt("banheiros"),
+                        res.getInt("vagas_garagem"),
+                        res.getString("status"),
+                        res.getDate("data_cadastro")
+                );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao buscar imóvel por ID: " + e.getMessage());
         }
-        return Optional.empty();
+        return null;
     }
 
-    public List<Imovel> obterTodos() {
-        String sql = "SELECT * FROM imoveis ORDER BY endereco";
-        List<Imovel> lista = new ArrayList<>();
-        try (var con = con(); var pre = con.prepareStatement(sql); var rs = pre.executeQuery()) {
-            while (rs.next()) {
-                lista.add(mapRowToImovel(rs));
+    public List<Imovel> listarTodos() {
+        var imoveis = new ArrayList<Imovel>();
+        String sql = "SELECT * FROM imoveis";
+        try (var con = ConnectionFactory.getInstance().get();
+             var pre = con.prepareStatement(sql);
+             var res = pre.executeQuery()) {
+            while (res.next()) {
+                imoveis.add(new Imovel(
+                        res.getLong("id"),
+                        res.getString("endereco"),
+                        res.getString("bairro"),
+                        res.getString("cidade"),
+                        res.getString("cep"),
+                        res.getString("tipo_imovel"),
+                        res.getBigDecimal("area_m2"),
+                        res.getInt("quartos"),
+                        res.getInt("banheiros"),
+                        res.getInt("vagas_garagem"),
+                        res.getString("status"),
+                        res.getDate("data_cadastro")
+                ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro ao listar todos os imóveis: " + e.getMessage());
         }
-        return lista;
-    }
-
-    private Imovel mapRowToImovel(java.sql.ResultSet rs) throws SQLException {
-        Imovel imovel = new Imovel();
-        imovel.setId(rs.getLong("id_imovel"));
-        imovel.setEndereco(rs.getString("endereco"));
-        imovel.setCidade(rs.getString("cidade"));
-        imovel.setCep(rs.getString("cep"));
-        imovel.setTipoImovel(rs.getString("tipo_imovel"));
-        imovel.setAreaM2(rs.getDouble("area_m2"));
-        imovel.setQuartos(rs.getInt("quartos"));
-        imovel.setBanheiros(rs.getInt("banheiros"));
-        imovel.setVagasGaragem(rs.getInt("vagas_garagem"));
-        imovel.setStatus(rs.getString("status"));
-        imovel.setBairro(rs.getString("bairro"));
-        return imovel;
+        return imoveis;
     }
 }

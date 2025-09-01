@@ -15,7 +15,7 @@ public class App extends Application {
         try {
             System.out.println("INFO: Tentando carregar TelaPrincipal.fxml...");
 
-            String fxmlFile = "/br/edu/univille/poo/dao/TelaPrincipal.fxml";
+            String fxmlFile = "/br/edu/univille/poo/view/TelaPrincipal.fxml";
 
             // CORREÇÃO AQUI: Verificamos o recurso ANTES de criar o FXMLLoader
             URL resource = getClass().getResource(fxmlFile);

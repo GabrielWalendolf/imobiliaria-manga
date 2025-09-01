@@ -1,5 +1,8 @@
-package br.edu.univille.poo.dao;
+package br.edu.univille.poo.controller;
 
+import br.edu.univille.poo.dao.AdminDAO;
+import br.edu.univille.poo.dao.GeradorDeHash;
+import br.edu.univille.poo.model.Admin;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

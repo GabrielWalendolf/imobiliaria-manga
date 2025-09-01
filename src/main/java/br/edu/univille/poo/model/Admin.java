@@ -1,4 +1,4 @@
-package br.edu.univille.poo.dao;
+package br.edu.univille.poo.model;
 
 /**
  * Modelo de dados para a entidade Administrador.
